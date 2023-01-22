@@ -52,7 +52,6 @@ Std_ReturnType GPIO_WRITE_LOGIC(uint8_t Port,uint8_t Pin,uint8_t LOGIC){
 	}
 	else
 	{
-		//volatile GPIO_t * Local_Reg_PTR = (volatile GPIO_t *)( (uint32_t) GPIOx_REG + Port );
 
 		switch(LOGIC)
 		{
@@ -65,4 +64,47 @@ Std_ReturnType GPIO_WRITE_LOGIC(uint8_t Port,uint8_t Pin,uint8_t LOGIC){
 
 
 	return ret;
+}
+
+Std_ReturnType GPIO_WRITE_LOGIC_ATOMIC(uint8_t Port,uint8_t Pin,uint8_t LOGIC){
+
+	Std_ReturnType ret = E_NOT_OK ;
+
+		if(Port > GPIO_PORTC || Pin > GPIO_PIN_15)
+		{
+			return ret ;
+		}
+		else
+		{
+
+			switch(LOGIC)
+			{
+			case GPIO_HIGH : GPIOX_ARR[Port]->BSRR = (1<<Pin)  ; break;
+
+			case GPIO_LOW  : GPIOX_ARR[Port]->BSRR = (1<<(Pin+16)) ; break;
+			}
+
+		}
+
+
+		return ret;
+}
+
+Std_ReturnType GPIO_READ_LOGIC(uint8_t Port,uint8_t Pin,uint8_t * VALUE){
+
+	Std_ReturnType ret = E_NOT_OK ;
+
+			if(Port > GPIO_PORTC || Pin > GPIO_PIN_15)
+			{
+				return ret ;
+			}
+			else
+			{
+
+				* VALUE = READ_BIT(GPIOX_ARR[Port]->IDR,Pin)   ;
+
+			}
+
+
+			return ret;
 }

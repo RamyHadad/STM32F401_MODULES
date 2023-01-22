@@ -83,7 +83,6 @@ typedef struct
 }GPIO_PIN_t;
 */
 
-
 /*--------------Function Declaration--------------*/
 
 //Std_ReturnType GPIO_PRECONFIG_INIT();
